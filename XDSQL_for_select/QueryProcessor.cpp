@@ -92,9 +92,34 @@ void useDB(char* dbname) {
 	return;
 }
 
-void showDB() {}
+void showDB() {
+	dbNodeList* dbnodelist = selectDB(NULL);
+	/* 输出数据库名称 */
+	printf("dbname：\n");
 
-void showTable() {}
+	dbNode* dbnode = dbnodelist->head;
+	for (int i = 0; i < dbnodelist->num; i++) {
+		printf("%s\n", dbnode->dbname);
+		dbnode = dbnode->next;
+	}
+	printf("total %d databases", dbnodelist->num);
+	return;
+}
+
+void showTable() {
+	tableNodeList* tablelist = selectDBTable(NULL, usedatabase);
+
+	/* 输出列名 */
+	printf("tablename\tcolnum\trowlength\n");
+
+	tableNode* tablenode = tablelist->head;
+	for (int i = 0; i < tablelist->num; i++) {
+		printf("%s\t%d\t%d\n", tablenode->tablename, tablenode->colnum, tablenode->rowlength);
+		tablenode = tablenode->next;
+	}
+	printf("total %d tables", tablelist->num);
+	return;
+}
 
 bool isExistTable(char* tablename) {
 	bool isExist;
